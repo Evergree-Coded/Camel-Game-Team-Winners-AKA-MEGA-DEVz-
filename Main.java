@@ -12,6 +12,7 @@ class Main {
     int Fatigue = 0;
     int nativesTraveled = -20;
     int canteen = 3;
+    int magicPotion = 1;
     boolean camelExist = true;
     boolean stillPlaying = true;
 
@@ -26,7 +27,7 @@ class Main {
       System.out.println("Q) Quit");
       System.out.println("Choose an option from above: ");
       String userChoice = scan.nextLine(); // take in user input
-
+      System.out.println();
       int nativesDistance = rand.nextInt(8) + 7;
       
       if(userChoice.equalsIgnoreCase("a")){
@@ -50,6 +51,34 @@ class Main {
         thirst++;
         Fatigue++;
         nativesTraveled += nativesDistance;
+        int goodBad = rand.nextInt(100);
+        if(goodBad >= 0 && goodBad <= 14){
+          System.out.println("You have arrived at an oasis. Your resources and energy have been replenished.");
+            thirst = 0;
+            canteen = 3;
+            Fatigue = 0;
+        }
+        else if(goodBad >= 15 && goodBad <= 35){
+          System.out.println("You have run into a sandstorm and have lost all your resources");
+          canteen = 0;
+          magicPotion = 0;
+        }
+        else if(goodBad >= 36 && goodBad <= 66){
+          System.out.println("You have come across a mystery box. You have found additional resources");
+          canteen++;
+        }
+        else if(goodBad >= 66 && goodBad <= 71){
+          if(camelExist){
+            System.out.println("You have run into bandits and they have stolen your camel and resources");
+            camelExist = false;
+            canteen = 0;
+            magicPotion = 0;
+          }
+          else{
+          System.out.println("You have run into bandits, but they're nice and you get a free camel");
+          camelExist = true;
+            }
+        }
       }
       if(userChoice.equalsIgnoreCase("c")){
         if(camelExist){
@@ -62,6 +91,34 @@ class Main {
         thirst++;
         Fatigue += rand.nextInt(3) + 1; 
         nativesTraveled += nativesDistance;
+        int goodBad = rand.nextInt(100);
+        if(goodBad >= 0 && goodBad <= 14){
+          System.out.println("You have arrived at an oasis. Your resources and energy have been replenished.");
+            thirst = 0;
+            canteen = 3;
+            Fatigue = 0;
+        }
+        else if(goodBad >= 15 && goodBad <= 35){
+          System.out.println("You have run into a sandstorm and have lost all your resources");
+          canteen = 0;
+          magicPotion = 0;
+        }
+        else if(goodBad >= 36 && goodBad <= 66){
+          System.out.println("You have come across a mystery box. You have found additional resources");
+          canteen++;
+        }
+        else if(goodBad >= 66 && goodBad <= 71){
+          if(camelExist){
+            System.out.println("You have run into bandits and they have stolen your camel and resources");
+            camelExist = false;
+            canteen = 0;
+            magicPotion = 0;
+          }
+          else{
+          System.out.println("You have run into bandits, but they're nice and you get a free camel");
+          camelExist = true;
+            }
+        }
       }
       if(userChoice.equalsIgnoreCase("d")){
         Fatigue = 0;
@@ -73,6 +130,7 @@ class Main {
         }
         nativesTraveled += nativesDistance;
       }
+      
       if(userChoice.equalsIgnoreCase("e")){
         // Natives forward (24% chance)
         // Natives backward(24% chance)
@@ -80,35 +138,50 @@ class Main {
         // Automatically lose game (2%)
         // Move forward(24% chance)
         // Move backward(24% chance)
-        
-        int potionNum = rand.nextInt(101); //Creates random number between 0-100
-        if(potionNum >= 0 && potionNum <= 24){ // Natives Forward
-          nativesTraveled += 50;
-          System.out.print();
-          System.out.println("The Natives have skipped forward ")
-          System.out.println("The natives are " + (milesTraveled - nativesTraveled) + " miles behind you");
+        if(magicPotion > 0){
+          System.out.println("You have consumed your magic potion");
+          int potionNum = rand.nextInt(101); //Creates random number between 0-100
+          if(potionNum >= 0 && potionNum <= 24){ // Natives Forward
+            nativesTraveled += 50;
+            System.out.println();
+            System.out.println("The Natives have skipped forward ");
+            System.out.println("The natives are " + (milesTraveled - nativesTraveled) + " miles behind you");
+          }
+          else if(potionNum >= 25 && potionNum <= 49){ // Natives Backward
+            nativesTraveled += -50;
+            System.out.println();
+            System.out.println("The Natives have fallen backward ");
+            System.out.println("The natives are " + (milesTraveled - nativesTraveled) + " miles behind you");
+          }
+          else if(potionNum >= 50 && potionNum <= 74){ // Player Forward
+            milesTraveled += 50;
+            System.out.println();
+            System.out.println("You have skipped forward ");
+            System.out.println("Miles Traveled " + milesTraveled);
+          }
+          else if(potionNum >= 74 && potionNum <= 98){ // Natives Backward
+            milesTraveled += -50;
+            System.out.println();
+            System.out.println("You have fallen backward ");
+            System.out.println("Miles Traveled " + milesTraveled);
         }
-        else if(potionNum >= 25 && potionNum <= 49){ // Natives Backward
-          nativesTraveled += -50;
-          System.out.print();
-          System.out.println("The Natives have fallen backward ")
-          System.out.println("The natives are " + (milesTraveled - nativesTraveled) + " miles behind you");
+          else if(potionNum == 99){
+            System.out.println("You lose the game... better luck next time");
+            stillPlaying = false;
+          }
+          else if(potionNum == 100){
+            System.out.println("You win the game. Go buy a lotto ticket");
+            stillPlaying = false;
+          }
         }
-        else if(potionNum >= 50 && potionNum <= 74){ // Player Forward
-          milesTraveled += 50;
-          System.out.print();
-          System.out.println("You have skipped forward ")
-          System.out.println("Miles Traveled " + milesTraveled);
+        else{
+          System.out.println("You don't have any magic potion available");
         }
-        else if(potionNum >= 74 && potionNum <= 98){ // Natives Backward
-          milesTraveled += -50;
-          System.out.print();
-          System.out.println("You have fallen backward ")
-          System.out.println("Miles Traveled " + milesTraveled);
-      }
+    }
       if(userChoice.equalsIgnoreCase("f")){
         System.out.println("Miles Traveled " + milesTraveled);
         System.out.println("You have " + canteen + " canteens");
+        System.out.println("Magic Potion: " + magicPotion);
         if(camelExist){
           System.out.println("The Camel Fatigue value: " +  Fatigue);
         }
@@ -163,10 +236,12 @@ class Main {
 
       if(milesTraveled <= nativesTraveled){
         System.out.println("You got caught by the natives.");
+        System.out.println("You lose the game");
         stillPlaying = false;
       }
       
     }
     System.out.println("You traveled " + milesTraveled + " miles.");
+    System.out.println();
   }
 }
